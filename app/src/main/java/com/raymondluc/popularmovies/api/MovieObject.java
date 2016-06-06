@@ -1,4 +1,4 @@
-package com.raymondluc.popularmovies;
+package com.raymondluc.popularmovies.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,18 +10,20 @@ public class MovieObject implements Parcelable {
     public static final String EXTRA_KEY = "movie_key";
 
     //Object attributes
-    String title = null;
-    String releaseDate = null;
-    String rating = null;
-    String plot = null;
-    String imageUrl = null;
+    public String title = null;
+    public String release_date = null;
+    public String vote_average = null;
+    public String overview = null;
+    public String poster_path = null;
+    public String id = null;
 
     protected MovieObject(Parcel in) {
         title = in.readString();
-        releaseDate = in.readString();
-        rating = in.readString();
-        plot = in.readString();
-        imageUrl = in.readString();
+        release_date = in.readString();
+        vote_average = in.readString();
+        overview = in.readString();
+        poster_path = in.readString();
+        id = in.readString();
     }
 
     public static final Creator<MovieObject> CREATOR = new Creator<MovieObject>() {
@@ -53,9 +55,10 @@ public class MovieObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(releaseDate);
-        dest.writeString(rating);
-        dest.writeString(plot);
-        dest.writeString(imageUrl);
+        dest.writeString(release_date);
+        dest.writeString(vote_average);
+        dest.writeString(overview);
+        dest.writeString(poster_path);
+        dest.writeString(id);
     }
 }

@@ -3,18 +3,27 @@ package com.raymondluc.popularmovies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.raymondluc.popularmovies.api.MovieObject;
+
+public class MainActivity extends AppCompatActivity implements MovieFragment.Callbacks {
+
+    private boolean mTwoPane;
+    private final String DETAILFRAGMENT_TAG = "DFTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        if (findViewById(R.id.movie_detail_container) != null) {
+            mTwoPane = true;
+        } else {
+            mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
+        }
 
     }
 
@@ -40,5 +49,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMovieSelected(MovieObject movie) {
+        if (mTwoPane) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, DetailFragment.newInstance(movie), DETAILFRAGMENT_TAG)
+                    .commit();
+        } else {
+            //Launch a detail activity
+            Intent detailIntent = new Intent(this, DetailActivity.class);
+            detailIntent.putExtra(MovieObject.EXTRA_KEY, movie);
+            startActivity(detailIntent);
+        }
     }
 }
